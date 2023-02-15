@@ -47,5 +47,15 @@ update employee_payroll set Phone = 1234569874 where ID IN (2,4);
 alter table employee_payroll add Address varchar(100) not null default 'Bangalore';
 alter table employee_payroll add Department varchar(250) default 'IT';
 
+--UC9-- Extend table to have Basic Pay, Deductions, Taxable Pay, Income Tax, Net Pay.
+exec sp_rename 'employee_payroll.salary','Basic_pay','column';
+alter table employee_payroll add 
+Deductions float not null default 0.00,
+Taxable_Pay float not null default 0.00, 
+Income_Tax float not null default 0.00,
+Net_Pay float not null default 0.00;
+update employee_payroll set Net_Pay = (Basic_Pay-Deductions-Taxable_Pay-Income_Tax);
+select * from employee_payroll;
+
 
 
